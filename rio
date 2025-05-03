@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dari Rio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background-color: #000;
+      color: white;
+      overflow: hidden;
+    }.bg-name {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(255, 105, 180, 0.1);
+  pointer-events: none;
+  animation: float 20s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100vh); }
+}
+
+.container {
+  position: absolute;
+  top: 25vh;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 1;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #ff69b4;
+  color: white;
+}
+
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center/cover;
+  animation: heart-float 6s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heart-float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 10px;
+}
+
+  </style>
+</head>
+<body>  <script>
+    for (let i = 0; i < 100; i++) {
+      const name = document.createElement('div');
+      name.className = 'bg-name';
+      name.style.left = Math.random() * 100 + 'vw';
+      name.style.top = Math.random() * 100 + 'vh';
+      name.textContent = 'Rio';
+      document.body.appendChild(name);
+    }
+
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      document.body.appendChild(heart);
+    }
+  </script>  <div class="container" id="page1">
+    <h2>Hai, ini dari Rio</h2>
+    <button class="button" onclick="goToPage(2)">Lanjut</button>
+  </div>  <div class="container" id="page2" style="display:none">
+    <h2>Mwehehehe, nama kamu siapa?</h2>
+    <input type="text" id="namaInput" placeholder="Tulis nama kamu..." />
+    <br>
+    <button class="button" onclick="handleNama()">Lanjut</button>
+  </div>  <div class="container" id="page3" style="display:none">
+    <h2 id="tanyaKabar"></h2>
+    <input type="text" id="kabarInput" placeholder="Tulis kabar kamu..." />
+    <br>
+    <button class="button" onclick="handleKabar()">Lanjut</button>
+  </div>  <div class="container" id="page4" style="display:none">
+    <h2 id="responKabar"></h2>
+    <p>Aku mau bilang sesuatu sama kamu, kamu mau tau nggak?</p>
+    <button class="button" onclick="goToPage(5)">Mau</button>
+    <button class="button" onmouseover="geserTombol(this)">Gak</button>
+  </div>  <div class="container" id="page5" style="display:none">
+    <p>Aku suka kamu. Bukan cuma karena kamu baik atau seru diajak ngobrol,<br> tapi karena kamu bisa bikin aku nyaman jadi diri sendiri.</p>
+    <p>Jadi... boleh gak aku jadi orang yang kamu pilih buat terus bareng ke depan?</p>
+    <button class="button" onclick="goToPage(6)">Iya aku mau</button>
+    <button class="button" onclick="goToPage('sad')">Maaf aku belum siap</button>
+  </div>  <div class="container" id="page6" style="display:none">
+    <h2>Serius kamu mau jadi pacar aku?</h2>
+    <button class="button" onclick="goToPage(7)">Iya aku mau</button>
+    <button class="button" onclick="goToPage(7)">Iya aku mau banget</button>
+  </div>  <div class="container" id="page7" style="display:none">
+    <h2>YEAYY!! Sekarang kamu udah jadi pacar aku!</h2>
+    <p>Semoga kita bisa terus bareng, saling jujur, dan saling jaga ya. Mwehehe!</p>
+  </div>  <div class="container" id="sad" style="display:none">
+    <h2>:(</h2>
+    <p>Yah gpp kalo kamu udah jujur, mwehehe</p>
+  </div>  <script>
+    let namaUser = '';
+
+    function goToPage(pageId) {
+      document.querySelectorAll('.container').forEach(el => el.style.display = 'none');
+      const pageElement = document.getElementById(typeof pageId === 'number' ? 'page' + pageId : pageId);
+      if (pageElement) pageElement.style.display = 'block';
+    }
+
+    function handleNama() {
+      namaUser = document.getElementById('namaInput').value;
+      if (!namaUser.trim()) return alert("Masukin nama dulu dong hehe");
+      document.getElementById('tanyaKabar').textContent = `Oh jadi nama kamu ${namaUser}, gimana kabar kamu ${namaUser}?`;
+      goToPage(3);
+    }
+
+    function handleKabar() {
+      const kabar = document.getElementById('kabarInput').value.toLowerCase();
+      if (!kabar.trim()) return alert("Tulis dulu dong kabarnya hehe");
+      const response = kabar.includes("baik")
+        ? `Alhamdulillah kalo kamu baik-baik aja, ${namaUser}!`
+        : `Oh gitu... makasih udah cerita ya, ${namaUser}`;
+      document.getElementById('responKabar').textContent = response;
+      goToPage(4);
+    }
+
+    function geserTombol(btn) {
+      const x = Math.random() * (window.innerWidth - 150);
+      const y = Math.random() * (window.innerHeight - 50);
+      btn.style.position = 'absolute';
+      btn.style.left = `${x}px`;
+      btn.style.top = `${y}px`;
+    }
+  </script></body>
+</html>
